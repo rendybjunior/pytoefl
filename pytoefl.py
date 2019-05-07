@@ -4,34 +4,35 @@ import random
 import datetime
 import time
 
+OUTPUT_FILE_PATH = "TOEFL/Independent Speaking Practice/"
+QUESTIONS_FILE_NAME = "speaking_questions.txt"
+PREPARE_ANSWER_SECONDS = 15
+RECORD_SECONDS = 45
 
-f = open("speaking_questions.txt","r+")
+f = open(QUESTIONS_FILE_NAME,"r+")
 questions = f.readlines()
 current_question_idx = random.randint(0, len(questions)-1)
 current_question = questions[current_question_idx]
+now = datetime.datetime.now()
+WAVE_OUTPUT_FILENAME = OUTPUT_FILE_PATH + now.strftime("%Y-%m-%d") + " " + ('%03d' % current_question_idx) + " " + current_question[:50] + ".wav"
 
 print("Question:")
 print(current_question)
 raw_input("Read the question and press Enter to continue...")
 
 print("")
-print("You now have 15 seconds to prepare your answer")
-delay = 15
-for i in range (0, delay):
-    print("Time remaining: {} seconds".format(delay - i))
+print("You now have {} seconds to prepare your answer".format(PREPARE_ANSWER_SECONDS))
+for i in range (0, PREPARE_ANSWER_SECONDS):
+    print("Time remaining: {} seconds".format(PREPARE_ANSWER_SECONDS - i))
     time.sleep(1)
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 44100
-RECORD_SECONDS = 45
-
-now = datetime.datetime.now()
-WAVE_OUTPUT_FILENAME = now.strftime("%Y-%m-%d") + " " + ('%03d' % current_question_idx) + " " + current_question[:50] + ".wav"
 
 print("")
-print("You now have 45 seconds to record your answer")
+print("You now have {} seconds to record your answer".format(RECORD_SECONDS))
 time.sleep(1)
 print("* recording")
 
